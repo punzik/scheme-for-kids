@@ -1,31 +1,25 @@
 (import (rnrs io ports (6)))  ;; Guile
 ;(require rnrs/io/ports-6)     ;; Racket
 
-(setlocale LC_ALL "")
-
-(define out-port (current-output-port))
-(define in-port (current-input-port))
+(setlocale LC_ALL "") ;; Guile
 
 (define (println . params)
-  (for-each (lambda (x) (display x out-port)) params)
-  (newline out-port) #f)
+  (for-each (lambda (x) (display x)) params)
+  (newline))
 
 ;; Helper functions
+(define (answer . params)
+  (for-each (lambda (x) (display x)) params)
+  (flush-output-port (current-output-port))
+  (get-line (current-input-port)))
+
 (define (yes? . params)
-  (for-each (lambda (x) (display x out-port)) params)
-  (display "? " out-port)
-  (flush-output-port out-port)
-  (let ((ans (get-line in-port)))
+  (let ((ans (apply answer (append params '("? ")))))
     (if (= (string-length ans) 0)
       #f
       (or
-        (equal? (string-ref ans 0) #\y)
-        (equal? (string-ref ans 0) #\д)))))
-
-(define (answer . params)
-  (for-each (lambda (x) (display x out-port)) params)
-  (flush-output-port out-port)
-  (get-line in-port))
+        (char-ci=? (string-ref ans 0) #\y)
+        (char-ci=? (string-ref ans 0) #\д)))))
 
 ;; Copy tree
 (define (copy-pet-tree pet-tree)
@@ -65,7 +59,7 @@
                (call-with-input-file TREE-FILE-NAME read)
                '())))
   (let ((tree (game-round pet-tree "Кот")))
-    (newline out-port)
+    (newline)
     (if (yes? "Играем еще")
       (loop tree)
       (begin
