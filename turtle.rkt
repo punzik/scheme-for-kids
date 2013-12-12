@@ -102,35 +102,6 @@
                 (printf "Unknown command '~a'\n" cmd)
                 (cons 0 0)))))))))
 
-(define (string-head-equal? s1 s2)
-  (let ((len (min (string-length s1) (string-length s2))))
-    (equal? 
-      (substring s1 0 len)
-      (substring s2 0 len))))
-
-(define (parse-cmd-string str)
-  (if (= (string-length str))
-    'no-more
-    (let parse ((commands (string-split str)) (x 0) (y 0))
-     (if (null? commands)
-       'no-more
-       (let* ((command (string-upcase (car command))))
-         (cond
-           ((string-head-equal? command "LEFT"))
-           ((string-head-equal? command "RIGHT"))
-           ((string-head-equal? command "UP"))
-           ((string-head-equal? command "DOWN"))
-           ((string-head-equal? command "EXIT"))
-           ((string-head-equal? command "QUIT"))
-           ((string-head-equal? command "BACK"))
-           ((string-head-equal? command "CLEAR"))
-           ((string-head-equal? command "PEN"))
-           (else
-             (begin
-               (printf "Unknown command '~a'\n" command)
-               (parse (cdr commands) x y)))
-           ))))))
-
 (define (process poly port interactive)
   (let ((cmd-line (begin
                     (if interactive
