@@ -1,0 +1,13 @@
+#+TITLE: README
+#+AUTHOR: Николай Пузанов
+#+EMAIL: punzik@gmail.com
+
+#+LANGUAGE: ru
+#+STARTUP: showall
+
+Развлекалки для детей. Запускать в [[http://racket-lang.org/][Racket]] (kot-kit.scm можно в [[http://www.gnu.org/software/guile/][GNU Guile]]).
+
+- =kot-kit.scm= - игра "Угадай животное"
+- =turtle.rkt= - "Рисующая черепашка"
+
+Подробности см. в исходниках.
