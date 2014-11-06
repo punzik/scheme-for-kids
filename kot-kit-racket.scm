@@ -17,21 +17,15 @@
 ;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ;; THE SOFTWARE.
 
-(cond-expand
- (guile
-  (import (rnrs io ports (6)))
-  (setlocale LC_ALL "")
-  (define read-line get-line))
- (else ;; R7RS (tested on Chibi and Gauche)
-  (import (scheme base)
-          (scheme file)
-          (scheme r5rs))))
+#lang racket
+
+(require rnrs/io/ports-6)     ;; Racket
 
 ;; Helper
 (define (answer . params)
   (for-each (lambda (x) (display x)) params)
   (flush-output-port (current-output-port))
-  (read-line (current-input-port)))
+  (get-line (current-input-port)))
 
 (define (yes? . params)
   (let ((ans (apply answer (append params '("? ")))))
@@ -85,7 +79,7 @@
         (loop tree)
         (begin
           ;; Racket
-          ;; (if (file-exists? TREE-FILE-NAME) (delete-file TREE-FILE-NAME) #f)
+          (if (file-exists? TREE-FILE-NAME) (delete-file TREE-FILE-NAME) #f)
 
           (call-with-output-file TREE-FILE-NAME (lambda (p) (write tree p)))
           ))))
